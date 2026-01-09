@@ -1,9 +1,6 @@
-# =============================================================================
 # Custom Airflow Image with Spark Provider
-# =============================================================================
 # Base: Apache Airflow 2.8.0
 # Additions: Spark provider, PySpark, project dependencies
-# =============================================================================
 
 FROM apache/airflow:2.8.0-python3.11
 

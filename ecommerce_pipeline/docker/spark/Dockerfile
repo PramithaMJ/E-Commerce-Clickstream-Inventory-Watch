@@ -1,9 +1,6 @@
-# =============================================================================
 # Custom Spark Image with Kafka Dependencies
-# =============================================================================
 # Base: Bitnami Spark 3.5.0
 # Additions: Kafka connector, Python packages for data processing
-# =============================================================================
 
 FROM bitnami/spark:3.5.0
 

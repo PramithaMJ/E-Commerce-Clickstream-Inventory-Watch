@@ -1,10 +1,7 @@
 version: '3.8'
 
-# =============================================================================
 # E-Commerce Clickstream & Inventory Watch - Lambda Architecture Stack
-# =============================================================================
 # Services: Zookeeper, Kafka, Spark (Master/Worker), Airflow (Webserver/Scheduler)
-# =============================================================================
 
 x-spark-common: &spark-common
   build:
@@ -24,9 +21,7 @@ x-spark-common: &spark-common
     - ecommerce-network
 
 services:
-  # ===========================================================================
   # ZOOKEEPER - Kafka Coordination Service
-  # ===========================================================================
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     hostname: zookeeper
@@ -44,9 +39,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # KAFKA BROKER - Message Queue for Clickstream Events
-  # ===========================================================================
   broker:
     image: confluentinc/cp-kafka:7.5.0
     hostname: broker
@@ -77,9 +70,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # KAFKA TOPIC INITIALIZATION
-  # ===========================================================================
   kafka-init:
     image: confluentinc/cp-kafka:7.5.0
     hostname: kafka-init
@@ -99,9 +90,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # SPARK MASTER - Cluster Manager
-  # ===========================================================================
   spark-master:
     build:
       context: ./docker/spark
@@ -129,9 +118,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # SPARK WORKER - Processing Node
-  # ===========================================================================
   spark-worker:
     <<: *spark-common
     hostname: spark-worker
@@ -148,9 +135,7 @@ services:
       - SPARK_WORKER_CORES=2
       - SPARK_WORKER_WEBUI_PORT=8081
 
-  # ===========================================================================
   # POSTGRESQL - Airflow Metadata Database
-  # ===========================================================================
   postgres:
     image: postgres:15-alpine
     hostname: postgres
@@ -169,9 +154,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # AIRFLOW WEBSERVER - DAG Management UI
-  # ===========================================================================
   airflow-webserver:
     build:
       context: ./docker/airflow
@@ -212,9 +195,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # AIRFLOW SCHEDULER - DAG Execution Engine
-  # ===========================================================================
   airflow-scheduler:
     build:
       context: ./docker/airflow
@@ -243,9 +224,7 @@ services:
     networks:
       - ecommerce-network
 
-  # ===========================================================================
   # AIRFLOW INITIALIZATION
-  # ===========================================================================
   airflow-init:
     build:
       context: ./docker/airflow
