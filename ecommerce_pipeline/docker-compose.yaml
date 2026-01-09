@@ -1,4 +1,4 @@
-version: '3.8'
+# Removed obsolete version key
 
 # E-Commerce Clickstream & Inventory Watch - Lambda Architecture Stack
 # Services: Zookeeper, Kafka, Spark (Master/Worker), Airflow (Webserver/Scheduler)
@@ -32,7 +32,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -63,7 +63,7 @@ services:
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
     healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -78,7 +78,7 @@ services:
     depends_on:
       broker:
         condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: [ "/bin/sh", "-c" ]
     command: |
       "
       echo 'Creating Kafka topics...'
@@ -98,20 +98,22 @@ services:
     hostname: spark-master
     container_name: spark-master
     ports:
-      - "8081:8080"  # Spark Master Web UI
-      - "7077:7077"  # Spark Master Port
+      - "8081:8080" # Spark Master Web UI
+      - "7077:7077" # Spark Master Port
     environment:
       - SPARK_MODE=master
       - SPARK_MASTER_HOST=spark-master
       - SPARK_MASTER_PORT=7077
       - SPARK_MASTER_WEBUI_PORT=8080
+      - SPARK_NO_DAEMONIZE=true
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     volumes:
       - ./src:/opt/spark-apps/src
       - ./config:/opt/spark-apps/config
       - ./data:/opt/spark-data
       - ./reports:/opt/spark-reports
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -127,13 +129,15 @@ services:
       spark-master:
         condition: service_healthy
     ports:
-      - "8082:8081"  # Spark Worker Web UI
+      - "8082:8081" # Spark Worker Web UI
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
       - SPARK_WORKER_MEMORY=2G
       - SPARK_WORKER_CORES=2
       - SPARK_WORKER_WEBUI_PORT=8081
+      - SPARK_NO_DAEMONIZE=true
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
 
   # POSTGRESQL - Airflow Metadata Database
   postgres:
@@ -147,7 +151,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
+      test: [ "CMD", "pg_isready", "-U", "airflow" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -188,7 +192,7 @@ services:
       - airflow-logs:/opt/airflow/logs
     command: webserver
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -242,7 +246,7 @@ services:
       - _AIRFLOW_WWW_USER_CREATE=true
       - _AIRFLOW_WWW_USER_USERNAME=admin
       - _AIRFLOW_WWW_USER_PASSWORD=admin
-    entrypoint: ["/bin/bash", "-c"]
+    entrypoint: [ "/bin/bash", "-c" ]
     command:
       - |
         airflow db migrate
