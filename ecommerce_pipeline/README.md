@@ -2,7 +2,7 @@
 
 A complete **Lambda Architecture** implementation for real-time e-commerce analytics with batch user segmentation.
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────────┐
@@ -33,7 +33,7 @@ A complete **Lambda Architecture** implementation for real-time e-commerce analy
                                                └─────────────────────┘
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -79,7 +79,7 @@ docker exec -it spark-master spark-submit \
 2. Login: `admin` / `admin`
 3. Enable and trigger `ecommerce_daily_segmentation` DAG
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ecommerce_pipeline/
@@ -107,7 +107,7 @@ ecommerce_pipeline/
 └── requirements.txt
 ```
 
-## 🎯 Features
+## Features
 
 ### Speed Layer (Real-Time)
 
@@ -123,7 +123,7 @@ ecommerce_pipeline/
 - **Conversion Rates** per product category
 - **Automated reports** (CSV, TXT, JSON)
 
-## ⏱️ Event Time Handling
+## Event Time Handling
 
 This pipeline uses **Event Time** (when events occurred) rather than Processing Time:
 
@@ -140,7 +140,7 @@ window(col("event_timestamp"), "10 minutes", "5 minutes")
 - Handles out-of-order events
 - Resilient to processing delays
 
-## 🎨 Design Patterns
+## Design Patterns
 
 | Pattern | Implementation |
 |---------|----------------|
@@ -149,7 +149,7 @@ window(col("event_timestamp"), "10 minutes", "5 minutes")
 | **Strategy** | Multiple `AlertHandler` implementations |
 | **Builder** | Spark DataFrame transformations |
 
-## 📊 Sample Output
+## Sample Output
 
 ### Flash Sale Alert
 ```
@@ -169,12 +169,12 @@ Window Shoppers: 847 users (Avg 12.3 views, 0 purchases)
 Buyers: 153 users (Avg 8.7 views, 2.1 purchases)
 ```
 
-## 🛑 Stopping the Pipeline
+## Stopping the Pipeline
 
 ```bash
 docker-compose down -v
 ```
 
-## 📝 License
+## License
 
 MIT License
