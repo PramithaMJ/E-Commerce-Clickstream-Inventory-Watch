@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir \
     confluent-kafka==2.3.0 \
     pydantic==2.5.0 \
     pydantic-settings==2.1.0 \
-    pandas==2.1.0 \
+    pandas==2.0.3 \
     pyarrow==14.0.0
 
 # Download Kafka connector JARs for Spark-Kafka integration

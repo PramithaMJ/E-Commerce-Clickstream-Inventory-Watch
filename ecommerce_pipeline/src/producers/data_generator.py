@@ -12,7 +12,7 @@ import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Iterator
+from typing import Dict, Iterator, List, Optional, Type, Union
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -106,7 +106,7 @@ class ClickstreamEvent(BaseModel):
 
     @field_validator("timestamp", mode="before")
     @classmethod
-    def ensure_iso_format(cls, v: str | datetime) -> str:
+    def ensure_iso_format(cls, v: Union[str, datetime]) -> str:
         """Ensure timestamp is in ISO 8601 format."""
         if isinstance(v, datetime):
             return v.isoformat()
@@ -141,7 +141,7 @@ class DataGenerator(ABC):
         pass
 
     @abstractmethod
-    def generate_batch(self, size: int) -> list[ClickstreamEvent]:
+    def generate_batch(self, size: int) -> List[ClickstreamEvent]:
         """Generate a batch of clickstream events.
 
         Args:
@@ -194,7 +194,7 @@ class RandomDataGenerator(DataGenerator):
             timestamp=datetime.now(timezone.utc).isoformat()
         )
 
-    def generate_batch(self, size: int) -> list[ClickstreamEvent]:
+    def generate_batch(self, size: int) -> List[ClickstreamEvent]:
         """Generate a batch of random events.
 
         Args:
@@ -223,7 +223,7 @@ class SkewedDataGenerator(DataGenerator):
         self,
         num_users: int = 1000,
         num_products: int = 100,
-        high_interest_products: list[str] | None = None,
+        high_interest_products: Optional[List[str]] = None,
         skew_probability: float = 0.3,
         view_purchase_ratio: float = 0.95
     ) -> None:
@@ -279,7 +279,7 @@ class SkewedDataGenerator(DataGenerator):
             timestamp=datetime.now(timezone.utc).isoformat()
         )
 
-    def generate_batch(self, size: int) -> list[ClickstreamEvent]:
+    def generate_batch(self, size: int) -> List[ClickstreamEvent]:
         """Generate a batch of skewed events.
 
         Args:
@@ -326,7 +326,7 @@ class BurstDataGenerator(DataGenerator):
             timestamp=datetime.now(timezone.utc).isoformat()
         )
 
-    def generate_batch(self, size: int) -> list[ClickstreamEvent]:
+    def generate_batch(self, size: int) -> List[ClickstreamEvent]:
         """Generate a burst of view events.
 
         Args:
@@ -353,7 +353,7 @@ class DataGeneratorFactory:
     """
 
     # Registry of available generator types
-    _generators: dict[str, type[DataGenerator]] = {
+    _generators: Dict[str, Type[DataGenerator]] = {
         "random": RandomDataGenerator,
         "skewed": SkewedDataGenerator,
         "burst": BurstDataGenerator,
@@ -401,7 +401,7 @@ class DataGeneratorFactory:
         cls._generators[name] = generator_class
 
     @classmethod
-    def available_types(cls) -> list[str]:
+    def available_types(cls) -> List[str]:
         """Get list of available generator types.
 
         Returns:
@@ -412,7 +412,7 @@ class DataGeneratorFactory:
 
 def create_event_stream(
     generator: DataGenerator,
-    count: int | None = None
+    count: Optional[int] = None
 ) -> Iterator[ClickstreamEvent]:
     """Create an iterator of clickstream events.
 
