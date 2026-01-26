@@ -1,5 +1,36 @@
+# OS files
 .DS_Store
 .idea
 .vscode
+
+# Python
 __pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment
 .env
+*.env.local
+
+# Generated Data (do NOT commit - these are runtime artifacts)
+ecommerce_pipeline/data/parquet/
+ecommerce_pipeline/data/checkpoints/
+ecommerce_pipeline/reports/*.csv
+ecommerce_pipeline/reports/*.txt
+ecommerce_pipeline/reports/*.json
+
+# Docker volumes
+*.log
+
+# Spark artifacts
+*.jar
+spark-warehouse/
+
+# Airflow
+airflow-webserver.pid
+airflow-scheduler.pid
