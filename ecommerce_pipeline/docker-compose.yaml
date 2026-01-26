@@ -260,6 +260,47 @@ services:
     networks:
       - ecommerce-network
 
+  # STORE BACKEND - Spring Boot API
+  store-backend:
+    build:
+      context: ../store/backend
+      dockerfile: Dockerfile
+    hostname: store-backend
+    container_name: store-backend
+    depends_on:
+      broker:
+        condition: service_healthy
+    ports:
+      - "8090:8090"
+    environment:
+      - SERVER_PORT=8090
+      - SPRING_APPLICATION_NAME=clickstream-store
+      - KAFKA_BOOTSTRAP_SERVERS=broker:29092
+      - KAFKA_CLICKSTREAM_TOPIC=clickstream_events
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/api/events/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # STORE FRONTEND - React Application
+  store-frontend:
+    build:
+      context: ../store/frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://13.235.248.201:8090/api
+    hostname: store-frontend
+    container_name: store-frontend
+    depends_on:
+      - store-backend
+    ports:
+      - "3000:3000"
+    networks:
+      - ecommerce-network
+
 networks:
   ecommerce-network:
     driver: bridge
