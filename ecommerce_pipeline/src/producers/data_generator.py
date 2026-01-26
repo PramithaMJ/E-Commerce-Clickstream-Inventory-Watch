@@ -126,9 +126,6 @@ class DataGenerator(ABC):
 
     This abstract class defines the interface for all event generators.
     Concrete implementations must provide the generate() method.
-
-    SOLID - Dependency Inversion: High-level modules depend on this
-    abstraction rather than concrete implementations.
     """
 
     @abstractmethod
@@ -390,9 +387,6 @@ class DataGeneratorFactory:
     @classmethod
     def register(cls, name: str, generator_class: Type[DataGenerator]) -> None:
         """Register a new generator type.
-
-        This allows extending the factory without modifying existing code
-        (SOLID - Open/Closed Principle).
 
         Args:
             name: Name to register the generator under.
