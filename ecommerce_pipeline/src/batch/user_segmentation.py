@@ -69,7 +69,7 @@ class UserSegmentationJob:
         spark: SparkSession,
         input_path: str,
         output_path: str,
-        processing_date: datetime | None = None
+        processing_date: Optional[datetime] = None
     ) -> None:
         """Initialize the user segmentation job.
 
@@ -334,7 +334,7 @@ class UserSegmentationJob:
         top_products: DataFrame,
         conversion_rates: DataFrame,
         email_summary: str
-    ) -> dict[str, str]:
+    ) -> Dict[str, str]:
         """Save all reports to the output directory.
 
         Args:

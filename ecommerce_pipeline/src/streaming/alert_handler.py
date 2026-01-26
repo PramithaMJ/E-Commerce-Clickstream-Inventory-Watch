@@ -8,7 +8,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Protocol
+from typing import Dict, List, Protocol
 
 from pyspark.sql import DataFrame, Row
 from pyspark.sql.functions import col
@@ -240,7 +240,7 @@ class AlertProcessor:
 
     def __init__(self) -> None:
         """Initialize the alert processor with empty handler list."""
-        self.handlers: list[AlertHandler] = []
+        self.handlers: List[AlertHandler] = []
 
     def add_handler(self, handler: AlertHandler) -> "AlertProcessor":
         """Add a handler to the processor.
@@ -254,7 +254,7 @@ class AlertProcessor:
         self.handlers.append(handler)
         return self
 
-    def process(self, alert: FlashSaleAlert) -> dict[str, bool]:
+    def process(self, alert: FlashSaleAlert) -> Dict[str, bool]:
         """Process an alert through all handlers.
 
         Args:
@@ -273,7 +273,7 @@ class AlertProcessor:
                 results[handler_name] = False
         return results
 
-    def process_batch(self, alerts: list[FlashSaleAlert]) -> list[dict]:
+    def process_batch(self, alerts: List[FlashSaleAlert]) -> List[Dict]:
         """Process multiple alerts.
 
         Args:

@@ -388,7 +388,7 @@ class DataGeneratorFactory:
         return generator_class(**kwargs)
 
     @classmethod
-    def register(cls, name: str, generator_class: type[DataGenerator]) -> None:
+    def register(cls, name: str, generator_class: Type[DataGenerator]) -> None:
         """Register a new generator type.
 
         This allows extending the factory without modifying existing code

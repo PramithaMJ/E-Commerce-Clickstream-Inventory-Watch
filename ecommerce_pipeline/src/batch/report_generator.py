@@ -9,7 +9,7 @@ import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -32,10 +32,10 @@ class ReportData:
     """
 
     date: datetime
-    user_segments: list[dict]
-    top_products: list[dict]
-    conversion_rates: list[dict]
-    metadata: dict[str, Any] | None = None
+    user_segments: List[Dict]
+    top_products: List[Dict]
+    conversion_rates: List[Dict]
+    metadata: Optional[Dict[str, Any]] = None
 
 
 class ReportGenerator(ABC):
@@ -320,7 +320,7 @@ class ReportFactory:
         return cls._generators[format_type]()
 
     @classmethod
-    def available_formats(cls) -> list[str]:
+    def available_formats(cls) -> List[str]:
         """Get list of available report formats.
 
         Returns:

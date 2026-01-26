@@ -15,7 +15,7 @@ Event Time vs Processing Time:
 
 import logging
 import sys
-from typing import Generic, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import (
@@ -320,7 +320,7 @@ class SparkStreamProcessor(Generic[T]):
     def write_to_parquet(
         self,
         output_path: str,
-        checkpoint_location: str | None = None
+        checkpoint_location: Optional[str] = None
     ):
         """Write raw events to Parquet for batch layer.
 

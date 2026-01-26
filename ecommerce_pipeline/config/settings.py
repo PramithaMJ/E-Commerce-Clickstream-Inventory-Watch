@@ -3,7 +3,7 @@ Configuration module for E-Commerce Clickstream Pipeline.
 """
 
 from functools import lru_cache
-from typing import ClassVar
+from typing import ClassVar, List, Optional, Union
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -26,7 +26,7 @@ class KafkaSettings(BaseSettings):
     )
 
     bootstrap_servers: str = Field(
-        default="localhost:9092",
+        default="broker:29092",
         description="Kafka broker addresses"
     )
     clickstream_topic: str = Field(
@@ -145,7 +145,7 @@ class ProducerSettings(BaseSettings):
         le=1000.0,
         description="Events generated per second"
     )
-    high_interest_product_ids: list[str] = Field(
+    high_interest_product_ids: List[str] = Field(
         default=["PROD_001", "PROD_002", "PROD_003"],
         description="Products to skew with high views"
     )
@@ -168,7 +168,7 @@ class ProducerSettings(BaseSettings):
 
     @field_validator("high_interest_product_ids", mode="before")
     @classmethod
-    def parse_product_ids(cls, v: str | list[str]) -> list[str]:
+    def parse_product_ids(cls, v: Union[str, List[str]]) -> List[str]:
         """Parse comma-separated product IDs from environment variable."""
         if isinstance(v, str):
             return [pid.strip() for pid in v.split(",")]
@@ -243,7 +243,7 @@ class AppSettings(BaseSettings):
     )
 
     # Singleton instance holder (private)
-    _instance: ClassVar["AppSettings | None"] = None
+    _instance: ClassVar[Optional["AppSettings"]] = None
 
     @classmethod
     def get_instance(cls) -> "AppSettings":

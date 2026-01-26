@@ -10,7 +10,7 @@ import json
 import logging
 import sys
 import time
-from typing import Callable
+from typing import Callable, Dict, Optional, Union
 
 from confluent_kafka import Producer, KafkaError, KafkaException
 from confluent_kafka.admin import AdminClient, NewTopic
@@ -51,7 +51,7 @@ class KafkaEventProducer:
         self,
         bootstrap_servers: str,
         topic: str,
-        config: dict | None = None
+        config: Optional[Dict] = None
     ) -> None:
         """Initialize the Kafka producer.
 
@@ -89,7 +89,7 @@ class KafkaEventProducer:
 
     def _delivery_callback(
         self,
-        err: KafkaError | None,
+        err: Optional[KafkaError],
         msg
     ) -> None:
         """Callback for message delivery confirmation.
@@ -145,10 +145,10 @@ class KafkaEventProducer:
         self,
         generator: DataGenerator,
         events_per_second: float = 10.0,
-        duration: int | None = None,
-        max_events: int | None = None,
-        on_produce: Callable[[ClickstreamEvent], None] | None = None
-    ) -> dict[str, int]:
+        duration: Optional[int] = None,
+        max_events: Optional[int] = None,
+        on_produce: Optional[Callable[[ClickstreamEvent], None]] = None
+    ) -> Dict[str, int]:
         """Produce events continuously with rate limiting.
 
         Args:
