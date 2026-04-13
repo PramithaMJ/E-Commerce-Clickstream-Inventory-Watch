@@ -6,6 +6,7 @@ import CartModal from '../components/CartModal';
 import TopBar from '../components/TopBar';
 import { useCart } from '../hooks/useCart';
 import { useSession } from '../hooks/useSession';
+import { usePreferences } from '../context/PreferencesContext';
 import { productService } from '../services/productService';
 import { trackingService } from '../services/trackingService';
 import { Product } from '../types';
@@ -26,13 +27,16 @@ type StockFilter  = 'all' | 'in-stock' | 'out-of-stock';
 type PriceRange   = 'all' | 'under-500' | '500-1000' | '1000-2000' | 'over-2000';
 type SortOption   = 'default' | 'price-asc' | 'price-desc' | 'rating';
 
-const priceOptions: { value: PriceRange; label: string }[] = [
-    { value: 'all',        label: 'All Prices'    },
-    { value: 'under-500',  label: 'Under $500'    },
-    { value: '500-1000',   label: '$500–$1,000'   },
-    { value: '1000-2000',  label: '$1,000–$2,000' },
-    { value: 'over-2000',  label: 'Over $2,000'   },
-];
+// Helper to generate price options based on currency
+const generatePriceOptions = (formatPrice: (price: number) => string): { value: PriceRange; label: string }[] => {
+    return [
+        { value: 'all', label: 'All Prices' },
+        { value: 'under-500', label: `Under ${formatPrice(500)}` },
+        { value: '500-1000', label: `${formatPrice(500)}–${formatPrice(1000)}` },
+        { value: '1000-2000', label: `${formatPrice(1000)}–${formatPrice(2000)}` },
+        { value: 'over-2000', label: `Over ${formatPrice(2000)}` },
+    ];
+};
 
 // ─── Skeleton card ────────────────────────────────────────────────────────────
 const SkeletonCard = () => (
@@ -70,6 +74,10 @@ const HomePage: React.FC = () => {
 
     const { userId, sessionId } = useSession();
     const cart = useCart();
+    const { formatPrice } = usePreferences();
+
+    // Generate price options based on current currency
+    const priceOptions = generatePriceOptions(formatPrice);
 
     // Load products
     useEffect(() => {
