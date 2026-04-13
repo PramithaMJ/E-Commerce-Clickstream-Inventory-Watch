@@ -6,7 +6,7 @@ import CartModal from '../components/CartModal';
 import TopBar from '../components/TopBar';
 import { useCart } from '../hooks/useCart';
 import { useSession } from '../hooks/useSession';
-import { usePreferences, currencySymbols } from '../context/PreferencesContext';
+import { usePreferences } from '../context/PreferencesContext';
 import { productService } from '../services/productService';
 import { trackingService } from '../services/trackingService';
 import { Product } from '../types';
@@ -28,7 +28,7 @@ type PriceRange   = 'all' | 'under-500' | '500-1000' | '1000-2000' | 'over-2000'
 type SortOption   = 'default' | 'price-asc' | 'price-desc' | 'rating';
 
 // Helper to generate price options based on currency
-const generatePriceOptions = (currency: string, formatPrice: (price: number) => string): { value: PriceRange; label: string }[] => {
+const generatePriceOptions = (formatPrice: (price: number) => string): { value: PriceRange; label: string }[] => {
     return [
         { value: 'all', label: 'All Prices' },
         { value: 'under-500', label: `Under ${formatPrice(500)}` },
@@ -74,10 +74,10 @@ const HomePage: React.FC = () => {
 
     const { userId, sessionId } = useSession();
     const cart = useCart();
-    const { currency, formatPrice } = usePreferences();
+    const { formatPrice } = usePreferences();
 
     // Generate price options based on current currency
-    const priceOptions = generatePriceOptions(currency, formatPrice);
+    const priceOptions = generatePriceOptions(formatPrice);
 
     // Load products
     useEffect(() => {
