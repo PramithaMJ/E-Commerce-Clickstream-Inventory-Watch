@@ -1,46 +1,58 @@
 import React from 'react';
-import { usePreferences } from '../context/PreferencesContext';
+import { usePreferences, countryFlags, countryNames, allCurrencies } from '../context/PreferencesContext';
+
+const countries = Object.entries(countryNames).map(([code, name]) => ({ code, name }));
 
 const TopBar: React.FC = () => {
     const { country, setCountry, currency, setCurrency } = usePreferences();
 
     return (
-        <div className="bg-gray-100 border-b border-gray-200 text-xs py-1.5 px-4 z-50">
-            <div className="max-w-[1400px] mx-auto flex justify-between items-center text-gray-500">
-                <div className="flex space-x-4">
-                    <span className="hover:text-red-500 cursor-pointer">Buyer Protection</span>
-                    <span className="hover:text-red-500 cursor-pointer">Help</span>
+        <div className="bg-[#1a1a1a] text-[#999] text-xs py-1.5 px-4">
+            <div className="max-w-[1400px] mx-auto flex justify-between items-center gap-4">
+                {/* Left links */}
+                <div className="hidden sm:flex items-center gap-4">
+                    <span className="hover:text-white cursor-pointer transition-colors">Buyer Protection</span>
+                    <span className="text-gray-700">|</span>
+                    <span className="hover:text-white cursor-pointer transition-colors">Help Center</span>
+                    <span className="text-gray-700">|</span>
+                    <span className="hover:text-white cursor-pointer transition-colors">Disputes &amp; Reports</span>
                 </div>
-                <div className="flex space-x-6 items-center">
-                    <span className="hover:text-red-500 cursor-pointer">Save More on App</span>
-                    <div className="flex items-center space-x-1 cursor-pointer group">
-                        <span className="text-gray-600">Ship to:</span>
-                        <select 
-                            value={country} 
+
+                {/* Right controls */}
+                <div className="flex items-center gap-3 ml-auto">
+                    <span className="hover:text-white cursor-pointer transition-colors hidden md:block">Save More on App</span>
+
+                    {/* Ship to */}
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-base leading-none">{countryFlags[country] ?? '🌐'}</span>
+                        <span className="text-gray-600 hidden sm:block">Ship to:</span>
+                        <select
+                            value={country}
                             onChange={(e) => setCountry(e.target.value)}
-                            className="bg-transparent border-none appearance-none outline-none font-medium group-hover:text-red-500 cursor-pointer"
+                            className="bg-transparent border-none outline-none text-[#ccc] hover:text-white cursor-pointer text-xs"
+                            style={{ WebkitAppearance: 'none' }}
                         >
-                            <option value="LK">Sri Lanka</option>
-                            <option value="US">United States</option>
-                            <option value="GB">United Kingdom</option>
-                            <option value="AU">Australia</option>
-                            <option value="EU">European Union</option>
+                            {countries.map(({ code, name }) => (
+                                <option key={code} value={code} className="bg-[#1a1a1a] text-white">
+                                    {countryFlags[code]} {name}
+                                </option>
+                            ))}
                         </select>
                     </div>
-                    <div className="flex items-center space-x-1 cursor-pointer group">
-                        <span className="text-gray-600">Currency:</span>
-                        <select 
-                            value={currency} 
-                            onChange={(e) => setCurrency(e.target.value)}
-                            className="bg-transparent border-none appearance-none outline-none font-medium group-hover:text-red-500 cursor-pointer"
-                        >
-                            <option value="LKR">LKR</option>
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                            <option value="AUD">AUD</option>
-                        </select>
-                    </div>
+
+                    <span className="text-gray-700">|</span>
+
+                    {/* Currency */}
+                    <select
+                        value={currency}
+                        onChange={(e) => setCurrency(e.target.value)}
+                        className="bg-transparent border-none outline-none text-[#ccc] hover:text-white cursor-pointer text-xs"
+                        style={{ WebkitAppearance: 'none' }}
+                    >
+                        {allCurrencies.map((cur) => (
+                            <option key={cur} value={cur} className="bg-[#1a1a1a] text-white">{cur}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
         </div>
