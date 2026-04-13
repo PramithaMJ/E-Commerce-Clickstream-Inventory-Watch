@@ -13,22 +13,20 @@ const api = axios.create({
 
 // Get or create user ID (stored in localStorage)
 const getUserId = (): string => {
-    let userId = localStorage.getItem('userId');
-    if (!userId) {
-        userId = `USER_${uuidv4().substring(0, 8).toUpperCase()}`;
-        localStorage.setItem('userId', userId);
-    }
-    return userId;
+    const stored = localStorage.getItem('userId');
+    if (stored) return stored;
+    const newId = `USER_${uuidv4().substring(0, 8).toUpperCase()}`;
+    localStorage.setItem('userId', newId);
+    return newId;
 };
 
 // Get or create session ID (stored in sessionStorage)
 const getSessionId = (): string => {
-    let sessionId = sessionStorage.getItem('sessionId');
-    if (!sessionId) {
-        sessionId = uuidv4();
-        sessionStorage.setItem('sessionId', sessionId);
-    }
-    return sessionId;
+    const stored = sessionStorage.getItem('sessionId');
+    if (stored) return stored;
+    const newId = uuidv4();
+    sessionStorage.setItem('sessionId', newId);
+    return newId;
 };
 
 /**
@@ -39,6 +37,7 @@ const getSessionId = (): string => {
 export const trackingService = {
     /**
      * Track a clickstream event.
+     * Converts to snake_case before posting — backend Jackson uses SNAKE_CASE strategy.
      */
     trackEvent: async (event: Partial<ClickstreamEvent>): Promise<void> => {
         const fullEvent: ClickstreamEvent = {
@@ -47,9 +46,22 @@ export const trackingService = {
             ...event,
         } as ClickstreamEvent;
 
+        // Backend expects snake_case field names due to SNAKE_CASE Jackson naming strategy
+        const payload = {
+            user_id: fullEvent.userId,
+            session_id: fullEvent.sessionId,
+            event_type: fullEvent.eventType,
+            product_id: fullEvent.productId,
+            product_name: fullEvent.productName,
+            category: fullEvent.category,
+            price: fullEvent.price,
+            quantity: fullEvent.quantity,
+            search_query: fullEvent.searchQuery,
+        };
+
         try {
-            await api.post<ApiResponse<any>>('/events', fullEvent);
-            console.log('📊 Tracked:', event.eventType, event.productId);
+            await api.post<ApiResponse<any>>('/events', payload);
+            console.log('Tracked:', event.eventType, event.productId);
         } catch (error) {
             console.error('Failed to track event:', error);
             // Fail silently - don't disrupt user experience
