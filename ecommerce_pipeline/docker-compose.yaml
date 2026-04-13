@@ -90,6 +90,55 @@ services:
     networks:
       - ecommerce-network
 
+  # SPARK STREAMING JOB - Submits the clickstream processor to Spark cluster
+  spark-streaming-job:
+    build:
+      context: ./docker/spark
+      dockerfile: Dockerfile
+    hostname: spark-streaming-job
+    container_name: spark-streaming-job
+    depends_on:
+      spark-master:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+    environment:
+      - SPARK_MODE=client
+    volumes:
+      - ./src:/opt/spark-apps/src
+      - ./config:/opt/spark-apps/config
+      - ./data:/opt/spark-data
+    command: >
+      /opt/spark/bin/spark-submit
+      --master spark://spark-master:7077
+      --name EcommerceClickstreamProcessor
+      --driver-memory 1g
+      --executor-memory 1g
+      --conf spark.sql.shuffle.partitions=4
+      --py-files /opt/spark-apps/config/__init__.py,/opt/spark-apps/config/settings.py,/opt/spark-apps/src/streaming/alert_handler.py
+      /opt/spark-apps/src/streaming/spark_processor.py
+    networks:
+      - ecommerce-network
+    restart: on-failure
+
+  # KAFKA UI - Web Interface for Kafka Monitoring
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    hostname: kafka-ui
+    container_name: kafka-ui
+    depends_on:
+      broker:
+        condition: service_healthy
+    ports:
+      - "8085:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: ecommerce-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - ecommerce-network
+
   # SPARK MASTER - Cluster Manager
   spark-master:
     build:
