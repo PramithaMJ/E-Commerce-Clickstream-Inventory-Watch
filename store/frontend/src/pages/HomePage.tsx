@@ -235,37 +235,37 @@ const HomePage: React.FC = () => {
                 </div>
 
                 {/* Stock Status Filter */}
-                <div className="mb-6">
-                    <div className="flex items-center space-x-2 mb-3">
-                        <span className="text-sm font-semibold text-gray-300">Availability</span>
+                <div className="mb-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                    <div className="flex items-center space-x-2 mb-4">
+                        <span className="text-sm font-bold text-gray-900 uppercase tracking-wider">Availability</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         <button
                             onClick={() => setStockFilter('all')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 stockFilter === 'all'
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-green-50 border-green-500 text-green-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-green-300 hover:text-green-500'
                             }`}
                         >
                             All
                         </button>
                         <button
                             onClick={() => setStockFilter('in-stock')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 stockFilter === 'in-stock'
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-green-50 border-green-500 text-green-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-green-300 hover:text-green-500'
                             }`}
                         >
                             In Stock
                         </button>
                         <button
                             onClick={() => setStockFilter('out-of-stock')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 stockFilter === 'out-of-stock'
-                                    ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             Out of Stock
@@ -274,57 +274,57 @@ const HomePage: React.FC = () => {
                 </div>
 
                 {/* Price Range Filter */}
-                <div className="mb-6">
-                    <div className="flex items-center space-x-2 mb-3">
-                        <span className="text-sm font-semibold text-gray-300">Price Range</span>
+                <div className="mb-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                    <div className="flex items-center space-x-2 mb-4">
+                        <span className="text-sm font-bold text-gray-900 uppercase tracking-wider">Price Range</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         <button
                             onClick={() => setPriceRange('all')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 priceRange === 'all'
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             All Prices
                         </button>
                         <button
                             onClick={() => setPriceRange('under-500')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 priceRange === 'under-500'
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             Under $500
                         </button>
                         <button
                             onClick={() => setPriceRange('500-1000')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 priceRange === '500-1000'
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             $500 - $1,000
                         </button>
                         <button
                             onClick={() => setPriceRange('1000-2000')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 priceRange === '1000-2000'
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             $1,000 - $2,000
                         </button>
                         <button
                             onClick={() => setPriceRange('over-2000')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 priceRange === 'over-2000'
-                                    ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
                             Over $2,000

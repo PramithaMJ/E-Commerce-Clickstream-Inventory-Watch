@@ -1,32 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Custom hook for managing user session.
- * 
- * Generates and persists user ID and session ID in localStorage.
+ *
+ * Eagerly reads from localStorage/sessionStorage via useState lazy initializer
+ * so userId and sessionId are available on the very first render — no race condition.
  */
 export const useSession = () => {
-    const [userId, setUserId] = useState<string>('');
-    const [sessionId, setSessionId] = useState<string>('');
+    const [userId] = useState<string>(() => {
+        const stored = localStorage.getItem('userId');
+        if (stored) return stored;
+        const newId = `USER_${uuidv4().substring(0, 8).toUpperCase()}`;
+        localStorage.setItem('userId', newId);
+        return newId;
+    });
 
-    useEffect(() => {
-        // Get or create user ID (persistent across sessions)
-        let storedUserId = localStorage.getItem('userId');
-        if (!storedUserId) {
-            storedUserId = uuidv4();
-            localStorage.setItem('userId', storedUserId);
-        }
-        setUserId(storedUserId);
-
-        // Get or create session ID (new for each browser session)
-        let storedSessionId = sessionStorage.getItem('sessionId');
-        if (!storedSessionId) {
-            storedSessionId = uuidv4();
-            sessionStorage.setItem('sessionId', storedSessionId);
-        }
-        setSessionId(storedSessionId);
-    }, []);
+    const [sessionId] = useState<string>(() => {
+        const stored = sessionStorage.getItem('sessionId');
+        if (stored) return stored;
+        const newId = uuidv4();
+        sessionStorage.setItem('sessionId', newId);
+        return newId;
+    });
 
     return { userId, sessionId };
 };
