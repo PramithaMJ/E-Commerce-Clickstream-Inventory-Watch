@@ -3,6 +3,7 @@ import { FiShoppingCart, FiSearch, FiFilter } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import ProductCard from '../components/ProductCard';
 import CartModal from '../components/CartModal';
+import TopBar from '../components/TopBar';
 import { useCart } from '../hooks/useCart';
 import { useSession } from '../hooks/useSession';
 import { productService } from '../services/productService';
@@ -127,77 +128,104 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="min-h-screen bg-gray-50">
+            <TopBar />
             {/* Header */}
-            <header className="bg-gray-900/50 backdrop-blur-lg border-b border-gray-800 sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-xl">E</span>
+            <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+                <div className="container mx-auto px-4 py-4 max-w-[1400px]">
+                    <div className="flex items-center justify-between gap-8">
+                        <div className="flex items-center space-x-3 shrink-0">
+                            <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                                <span className="text-white font-bold text-xl">A</span>
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-white">ElectroStore</h1>
-                                <p className="text-xs text-gray-400">Premium Electronics</p>
+                                <h1 className="text-2xl font-extrabold text-red-500 tracking-tight">AliElectro</h1>
+                                <p className="text-xs text-gray-500 font-medium">Smarter Shopping, Better Living.</p>
                             </div>
                         </div>
 
+                        {/* Search Bar */}
+                        <form onSubmit={handleSearch} className="flex-1 max-w-3xl hidden md:block group">
+                            <div className="relative flex items-center">
+                                <input
+                                    type="text"
+                                    placeholder="I'm shopping for..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-6 pr-24 py-2.5 bg-white text-gray-900 rounded-full border-2 border-red-500 focus:outline-none transition-all placeholder-gray-400 shadow-sm"
+                                />
+                                <button type="submit" className="absolute right-1 top-1 bottom-1 px-6 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full transition-colors flex items-center">
+                                    <FiSearch className="w-5 h-5 mr-1" />
+                                </button>
+                            </div>
+                        </form>
+
                         <button
                             onClick={() => setIsCartOpen(true)}
-                            className="relative p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-all duration-200 hover:scale-105"
+                            className="relative flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors shrink-0"
                         >
-                            <FiShoppingCart className="w-6 h-6" />
+                            <div className="p-2 bg-gray-100 rounded-full text-gray-700">
+                                <FiShoppingCart className="w-6 h-6" />
+                            </div>
+                            <div className="hidden sm:block text-left">
+                                <span className="block text-xs text-gray-500 font-medium">Cart</span>
+                                <span className="block text-sm font-bold text-gray-900">
+                                    {cart.getTotalItems()} items
+                                </span>
+                            </div>
                             {cart.getTotalItems() > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+                                <span className="absolute top-0 left-6 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[20px] h-[20px] flex items-center justify-center border-2 border-white">
                                     {cart.getTotalItems()}
                                 </span>
                             )}
                         </button>
                     </div>
 
-                    {/* Search Bar */}
-                    <form onSubmit={handleSearch} className="mt-4">
-                        <div className="relative">
-                            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    {/* Mobile Search Bar */}
+                    <form onSubmit={handleSearch} className="mt-4 md:hidden">
+                        <div className="relative flex items-center">
                             <input
                                 type="text"
-                                placeholder="Search for products..."
+                                placeholder="I'm shopping for..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                className="w-full pl-4 pr-12 py-2 bg-white text-gray-900 rounded-full border-2 border-red-500 focus:outline-none placeholder-gray-400"
                             />
+                            <button type="submit" className="absolute right-1 top-1 bottom-1 px-4 bg-red-500 text-white rounded-full flex items-center">
+                                <FiSearch className="w-4 h-4" />
+                            </button>
                         </div>
                     </form>
                 </div>
             </header>
 
             {/* Filters Section */}
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto px-4 py-6 max-w-[1400px]">
                 {/* Category Filter */}
-                <div className="mb-6">
-                    <div className="flex items-center space-x-2 mb-3">
-                        <FiFilter className="text-gray-400" />
-                        <span className="text-sm font-semibold text-gray-300">Category</span>
+                <div className="mb-6 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                    <div className="flex items-center space-x-2 mb-4">
+                        <FiFilter className="text-red-500" />
+                        <span className="text-sm font-bold text-gray-900 uppercase tracking-wider">Categories</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         <button
                             onClick={() => setSelectedCategory('all')}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                 selectedCategory === 'all'
-                                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? 'bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                             }`}
                         >
-                            All Products
+                            All Categories
                         </button>
                         {categories.map((cat) => (
                             <button
                                 key={cat.value}
                                 onClick={() => setSelectedCategory(cat.value)}
-                                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border ${
                                     selectedCategory === cat.value
-                                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                        ? 'bg-red-50 border-red-500 text-red-600'
+                                        : 'bg-white border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-500'
                                 }`}
                             >
                                 {cat.label}
