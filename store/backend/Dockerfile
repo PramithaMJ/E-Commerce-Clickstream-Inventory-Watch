@@ -10,6 +10,9 @@ RUN mvn package -DskipTests -B
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
 # Add non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
