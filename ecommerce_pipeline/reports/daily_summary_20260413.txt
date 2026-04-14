@@ -1,0 +1,74 @@
+============================================================
+E-COMMERCE DAILY ANALYTICS REPORT
+Date: 2026-04-13
+============================================================
+
+USER SEGMENTATION SUMMARY
+----------------------------------------
+  Buyer:
+    User Count: 786
+    Avg Views/User: 3.86
+    Avg Purchases/User: 1.95
+    Avg Engagement Score: 28.19
+
+  Window Shopper:
+    User Count: 216
+    Avg Views/User: 3.3
+    Avg Purchases/User: 0.0
+    Avg Engagement Score: 7.52
+
+
+TOP 5 MOST VIEWED PRODUCTS
+----------------------------------------
+  1. PROD_001 (smartphones)
+     Views: 141, Unique Viewers: 113
+  2. PROD_001 (tablets)
+     Views: 129, Unique Viewers: 125
+  3. PROD_003 (smartphones)
+     Views: 123, Unique Viewers: 99
+  4. PROD_002 (smartphones)
+     Views: 120, Unique Viewers: 89
+  5. PROD_002 (audio)
+     Views: 119, Unique Viewers: 110
+
+CONVERSION RATES BY CATEGORY
+----------------------------------------
+  laptops:
+    Views: 620, Purchases: 269
+    Overall Conversion: 43.39%
+    View→Cart: 38.55%, Cart→Purchase: 112.55%
+
+  tablets:
+    Views: 597, Purchases: 257
+    Overall Conversion: 43.05%
+    View→Cart: 45.23%, Cart→Purchase: 95.19%
+
+  gaming:
+    Views: 634, Purchases: 268
+    Overall Conversion: 42.27%
+    View→Cart: 42.43%, Cart→Purchase: 99.63%
+
+  smartphones:
+    Views: 637, Purchases: 253
+    Overall Conversion: 39.72%
+    View→Cart: 42.23%, Cart→Purchase: 94.05%
+
+  accessories:
+    Views: 622, Purchases: 239
+    Overall Conversion: 38.42%
+    View→Cart: 43.89%, Cart→Purchase: 87.55%
+
+  audio:
+    Views: 639, Purchases: 243
+    Overall Conversion: 38.03%
+    View→Cart: 40.69%, Cart→Purchase: 93.46%
+
+  None:
+    Views: 0, Purchases: 0
+    Overall Conversion: 0.0%
+    View→Cart: 0.0%, Cart→Purchase: 0.0%
+
+
+============================================================
+Report Generated: 2026-04-14T11:24:07.800945
+============================================================
