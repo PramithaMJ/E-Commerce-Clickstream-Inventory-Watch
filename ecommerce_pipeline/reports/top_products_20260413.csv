@@ -1,0 +1,6 @@
+product_id,category,view_count,unique_viewers
+PROD_001,smartphones,141,113
+PROD_001,tablets,129,125
+PROD_003,smartphones,123,99
+PROD_002,smartphones,120,89
+PROD_002,audio,119,110

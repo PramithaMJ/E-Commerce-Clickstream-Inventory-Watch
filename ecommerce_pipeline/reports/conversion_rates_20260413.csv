@@ -1,0 +1,8 @@
+category,views,carts,purchases,unique_users,view_to_cart_rate,cart_to_purchase_rate,overall_conversion_rate
+laptops,620,239,269,652,38.55,112.55,43.39
+tablets,597,270,257,651,45.23,95.19,43.05
+gaming,634,269,268,661,42.43,99.63,42.27
+smartphones,637,269,253,679,42.23,94.05,39.72
+accessories,622,273,239,643,43.89,87.55,38.42
+audio,639,260,243,648,40.69,93.46,38.03
+,0,0,0,1,0.0,0.0,0.0

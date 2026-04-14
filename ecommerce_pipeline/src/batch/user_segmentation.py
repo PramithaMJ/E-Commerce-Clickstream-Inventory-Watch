@@ -19,7 +19,7 @@ import logging
 import os
 import sys
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Dict
 
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import (
